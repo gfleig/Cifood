@@ -6,6 +6,7 @@ import util.NameInvalidException;
 import util.PriceInvalidException;
 import util.ItemValidador;
 
+import java.util.HashMap;
 import java.util.Map;
 //import java.util.logging.Level;
 
@@ -21,6 +22,7 @@ public class EntityManager {
 	private static Map<String, Entity> items;
 	private static Map<String, Entity> users;
 	private static Map<String, Entity> suppliers;
+	private static HashMap<String, Order> orders = new HashMap<String, Order>();
 	
 	static EntityFileDaoImpl entityFileDao;
 	
@@ -50,6 +52,32 @@ public class EntityManager {
 		return instance;
 	}
 
+	public void addOrder(String cliente, String fornecedor, String pagamento) {
+		Order order = null;
+		
+		//PagamentoCartao cartao = new PagamentoCartao();
+		//PagamentoDinheiro dinheiro = new PagamentoDinheiro();
+		
+		if(users.get(cliente) != null && suppliers.get(fornecedor) != null) {
+			if(pagamento == "cartao") {
+				//formaDePagamento = new PagamentoCartao();
+				order = new Order((User)users.get(cliente), (FoodSupplier)suppliers.get(fornecedor), new PagamentoCartao());
+			}
+			if(pagamento == "dinheiro") {
+				order = new Order((User)users.get(cliente), (FoodSupplier)suppliers.get(fornecedor), new PagamentoDinheiro());
+			}			
+			JOptionPane.showMessageDialog(null, order.toString());
+			orders.put(order.getFornecedor().getName(), order);
+			JOptionPane.showMessageDialog(null, "Pedido adicionado com sucesso.");
+
+			order.fecharPedido();	
+		}
+		else {
+			if(users.get(cliente) == null) JOptionPane.showMessageDialog(null, "Cliente inexistente.");
+			if(suppliers.get(fornecedor) == null) JOptionPane.showMessageDialog(null, "Fornecedor inexistente.");
+		}
+	}
+	
 	public void addEntity(Entity entity) throws NameInvalidException, PriceInvalidException {
 
 		switch (entity.getType())
@@ -82,6 +110,11 @@ public class EntityManager {
 				items.put(((Item) entity).getName(), entity);
 				entityFileDao.saveEntity(items, "cardapio.bin");
 				JOptionPane.showMessageDialog(null, "Item adicionado com sucesso.");
+				break;
+				
+			case "Pedido":
+				
+				//orders.put(((Order)entity).getCliente().getName(), entity);
 				break;
 		}
 		

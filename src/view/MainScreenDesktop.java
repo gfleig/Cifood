@@ -30,8 +30,8 @@ public class MainScreenDesktop {
 				"\n1-Inserir novo item\n2-Listar itens\n3-Excluir item\n33-Desfazer inclusão/exclusão de item" +
 				"\n4-Inserir cliente\n5-Listar clientes\n6-Excluir cliente\n66-Desfazer inclusão/exclusão de cliente" +
 				"\n7-Inserir fornecedor\n8-Listar fornecedores\n9-Excluir fornecedor\n99-Desfazer inclusão/exclusão de fornecedor" +
-				"\n10-Enviar mensagem direcionada\n11-Gerar relatórios administrativos" + 
-				"\n12-Sair",
+				"\n10-Enviar mensagem direcionada\n11-Gerar relatórios administrativos\n12-Criar e processar Pedido" + 
+				"\n13-Sair",
 				//"Digite sua opção",
 				"Cifood",
 				JOptionPane.QUESTION_MESSAGE);
@@ -235,7 +235,36 @@ public class MainScreenDesktop {
 			
 			showMenu();
 			break;
-		case 12:			
+		case 12:
+			
+			String clientePedido = "";
+			String fornecedorPedido = "";
+			int formaDePagamentoOption;
+			//String formaDePagamento = "";
+			
+			String[] options = {"Dinheiro", "Cartão"};
+			
+			clientePedido = JOptionPane.showInputDialog("Cliente que faz o pedido: ");
+			fornecedorPedido = JOptionPane.showInputDialog("Fornecedor que recebe o pedido:  ");
+			formaDePagamentoOption = JOptionPane.showOptionDialog(null,
+				    		"Escolha a forma de pagamento: ",
+				    	    "Forma de Pagamento",
+				    	    JOptionPane.YES_NO_OPTION,
+				    	    JOptionPane.QUESTION_MESSAGE,
+				    	    null,
+				    	    options,
+				    	    options[0]);
+
+			if(formaDePagamentoOption == 1) {
+				manager.addOrder(clientePedido, fornecedorPedido, "dinheiro");
+			}
+			else {
+				manager.addOrder(clientePedido, fornecedorPedido, "cartao");
+			}				
+			
+			showMenu();
+			break;
+		case 13:			
 			break;
 		case 33:
 			try {

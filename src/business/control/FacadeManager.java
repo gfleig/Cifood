@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import business.model.Entity;
 import business.model.Item;
 import business.model.Message;
+import business.model.Order;
 import infra.InfraException;
 import util.NameInvalidException;
 import util.PriceInvalidException;
@@ -62,5 +63,9 @@ public class FacadeManager
 	public void generateReport(String typeReport)
 	{
 		rptManager.generateReport(typeReport);
+	}
+	
+	public void addOrder(String cliente, String fornecedor, String pagamento) {
+		entityManager.addOrder(cliente, fornecedor, pagamento);
 	}
 }
