@@ -26,13 +26,13 @@ public class MainScreenDesktop {
 	public static void showMenu() {
 		String option = JOptionPane.showInputDialog(
 				null,
-				"Bem-vindo ao sistema do Cifood!\nEscolha a opÃ§Ã£o desejada:" +
-				"\n1-Inserir novo item\n2-Listar itens\n3-Excluir item" +
-				"\n4-Inserir cliente\n5-Listar clientes\n6-Excluir cliente" +
-				"\n7-Inserir fornecedor\n8-Listar fornecedores\n9-Excluir fornecedor" +
-				"\n10-Enviar mensagem direcionada\n11-Gerar relatÃ³rios administrativos" + 
+				"Bem-vindo ao sistema do Cifood!\nEscolha a opção desejada:" +
+				"\n1-Inserir novo item\n2-Listar itens\n3-Excluir item\n33-Desfazer inclusão/exclusão de item" +
+				"\n4-Inserir cliente\n5-Listar clientes\n6-Excluir cliente\n66-Desfazer inclusão/exclusão de cliente" +
+				"\n7-Inserir fornecedor\n8-Listar fornecedores\n9-Excluir fornecedor\n99-Desfazer inclusão/exclusão de fornecedor" +
+				"\n10-Enviar mensagem direcionada\n11-Gerar relatórios administrativos" + 
 				"\n12-Sair",
-				//"Digite sua opÃ§Ã£o",
+				//"Digite sua opção",
 				"Cifood",
 				JOptionPane.QUESTION_MESSAGE);
 
@@ -48,7 +48,7 @@ public class MainScreenDesktop {
 		try {
 			choice = Integer.parseInt(option);
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "NÃ£o foi possÃ­vel resolver (parse) a escolha", "Erro", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Não foi possível resolver (parse) a escolha", "Erro", JOptionPane.WARNING_MESSAGE);
 		}
 		boolean checkedName = false;
 		boolean checkedPrice = false;
@@ -62,7 +62,7 @@ public class MainScreenDesktop {
 					name = JOptionPane.showInputDialog("Nome do Item:");
 				}
 				if (!checkedPrice) {
-					price = JOptionPane.showInputDialog("PreÃ§o do Item:");
+					price = JOptionPane.showInputDialog("Preço do Item:");
 				}
 
 				try {
@@ -229,14 +229,43 @@ public class MainScreenDesktop {
 		case 11:
 			String typeReport = "";
 			
-			typeReport = JOptionPane.showInputDialog("Salvar o relatÃ³rio em qual formato? (PDF / XML) ");
+			typeReport = JOptionPane.showInputDialog("Salvar o relatório em qual formato? (PDF / XML) ");
 			
 			this.manager.generateReport(typeReport);
 			
 			showMenu();
 			break;
-		case 12:
-			
+		case 12:			
+			break;
+		case 33:
+			try {
+				manager.undoEntity("Item");
+			} catch (NameInvalidException e) {
+				e.printStackTrace();
+			} catch (PriceInvalidException e) {
+				e.printStackTrace();
+			}
+			showMenu();
+			break;
+		case 66:
+			try {
+				manager.undoEntity("Cliente");
+			} catch (NameInvalidException e) {
+				e.printStackTrace();
+			} catch (PriceInvalidException e) {
+				e.printStackTrace();
+			}
+			showMenu();
+			break;
+		case 99:
+			try {
+				manager.undoEntity("Fornecedor");
+			} catch (NameInvalidException e) {
+				e.printStackTrace();
+			} catch (PriceInvalidException e) {
+				e.printStackTrace();
+			}
+			showMenu();
 			break;
 		default:
 			showMenu();

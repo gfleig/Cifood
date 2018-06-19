@@ -45,9 +45,12 @@ public class FacadeManager
 		entityManager.deleteEntity(args, category);
 	}
 	
+	public void undoEntity(String entityType) throws NameInvalidException, PriceInvalidException{
+		entityManager.undo(entityType);
+	}
+	
 	public Map<String, Entity> getAllEntities(String entity) throws InfraException
-	{
-		
+	{		
 		return entityManager.getAllEntities(entity);
 	}
 	
